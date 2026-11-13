@@ -1,222 +1,50 @@
-# StarPilot V1
+# StarPilot
 
-面向 Bortle 9 城市阳台的腕上深空摄影辅助工具。手表负责现场即时操作，手机负责重计算与配置，相机（Sony A7R IV）全程手动。
+HarmonyOS 手表上的观星与深空摄影辅助工具，使用 ArkTS Stage 模型开发。当前版本 **0.1.1**。
 
-**当前阶段：天体目录共 1,198 条，已纳入全部 710 颗星座连线端点。S4 遮挡编辑器、S5 摄影计算器和手表直连天气均已上机，真实阳台数据与 S3 现场指向待补。**
+## 下载
 
----
+**[打开下载列表](https://github.com/wenyaoxuan/StarPilot/releases)** · [最新版本](https://github.com/wenyaoxuan/StarPilot/releases/latest) · [安装说明](DOWNLOADS.md)
 
-## 交付物
-
-| 文件 | 内容 |
+| 下载 | 用途 |
 |---|---|
-| `CODEX_HANDOFF.md` | **Codex 交接文档**：当前状态、构建/安装、测试证据、已知问题、下一步 |
-| `AGENTS.md` | Codex 工作规则/硬约束 |
-| `TECH_AUDIT.md` | 技术审计报告：平台事实、API 能力矩阵、通信方案、风险、任务书修正、S1 计划 |
-| `docs/S0_DEVICE_TEST.md` | 真机验证协议：T01–T20，含命令、通过标准、结果表 |
-| `s0-results/EMULATOR_RUN.md` | 2026-11-06 模拟器预检记录：编译/安装/UI/存储/HTTP/计时 |
-| `s0-results/WATCH_RUN.md` | 2026-11-06/07 真机记录：安装、传感器、罗盘、振动、后台计时 |
-| `S1_TEST_REPORT.md` | 2026-11-07 S1 真机验收：四页、计时、振动、补提醒、红光 |
-| `S2_TEST_REPORT.md` | 2026-11-07 S2 天文历算：实现范围、交叉验证误差、已知限制 |
-| `S3_TEST_REPORT.md` | 2026-11-07 S3 目标导航：实现、真机日志、精度基线、待办 |
-| `S4_TEST_REPORT.md` | 2026-11-07 S4 遮挡编辑器/推荐：合成场景、真机日志、限制 |
-| `WEATHER_REPORT.md` | 2026-11-07 天气接入：系统天气不可用、Open-Meteo 直连、真机结果 |
-| `S5_TEST_REPORT.md` | 2026-11-07 S5 摄影计算器：公式、测试、真机结果、限制 |
-| `D1_QC_REPORT.md` | D1 目录质量：构成、随机 20 条 RA/Dec 回查、去重、搜索回归 |
-| `D1_DEVICE_TEST.md` | D1 真机验收：安装、搜索/筛选、详情/导航、证据与未完成项 |
-| `ORIENTATION_TEST_REPORT.md` | 系统 ORIENTATION 探针：SDK 证据、真机 10 Hz、四方向验证、Lite Compass 编译限制、接入记录 |
-| `SOLAR_SYSTEM_REPORT.md` | 月球 + 七大行星：历算、astronomy-engine 对拍、真机详情/导航、限制 |
-| `AR_REPORT.md` | AR 星图（无相机）：可行性、实现、真机结果与限制 |
-| `tools/catalog/` | OpenNGC/Caldwell/HYG → 669 条静态目录的导入、校验脚本与数据来源说明 |
-| `tools/photo-test/` | Node 光学/曝光计算验证脚本 |
-| `tools/astro-test/` | Node 交叉验证脚本（astronomy-engine 2.1.19） |
-| `starpilot-watch/` | S1 手表应用 + S0 诊断页源码 |
-| `brand/` | 品牌图标母版（1024）+ `tools/brand/make_brand.py` 生成脚本 |
-| `README.md` | 本文件 |
+| [源码 ZIP](https://github.com/wenyaoxuan/StarPilot/archive/refs/heads/main.zip) | DevEco Studio 打开工程，为自己的手表配置自动签名后构建安装 |
+| [版本下载列表](https://github.com/wenyaoxuan/StarPilot/releases) | 版本说明、固定版本源码、供自行签名的 unsigned HAP 及 SHA-256 校验文件 |
 
-## 状态（必须如实阅读）
+unsigned HAP 需要用自己的证书与设备 Profile 签名。个人调试签名包只能安装到 Profile 指定的设备。普通用户直接安装的公开分发包尚未提供，安装要求见 [DOWNLOADS.md](DOWNLOADS.md)。
 
-- S0 文档/审计：**完成**。
-- S0 真机门禁：G1 PASS；G2 PASS（基线，阳台待测）；G3 PASS（有条件：计时期间屏幕常亮）；G4（Wear Engine）阻塞。
-- S1 手表应用：**真机验收通过**（四页、离线、计时/振动/补提醒、红光、诊断入口）。
-- 位置：**地区/国家/城市选择**（157 个城市、49 个国家/地区），支持中国/亚洲/欧洲/美洲/大洋洲/非洲筛选；切换后历算与双源天气实时刷新。
-- S2 天文历算：**PASS**（对拍 astronomy-engine 2.1.19；太阳 0.005°、月球黄经 0.012°、暮光 3 s）。
-- S3 目标导航：**功能上机**（目标选择、实时 Alt/Az、左右/抬高提示、目标持久化）；现场指向精度验收待做。
-- S4 遮挡与推荐：**功能完成**（16 扇区编辑器、列表状态、有效窗口、导航遮挡提示）；合成 ESE 60° 验证通过，真实阳台待录入。
-- S5 摄影计算器：**完成并上机**（视场/采样/NPF/500/1px/堆栈/实际耗时）；全部数学测试通过。
-- 天气：**双源手表直连**（Open-Meteo 云量/温湿/风/降水 + 7Timer 视宁/透明）；系统天气 App 数据不可用。
-- D1 天体目录：**678 条上机通过**（669 静态 + 太阳 + 月球 + 七大行星）；中/英/编号搜索、太阳系分类、仅可见、详情与导航均真机验证；随机 20 条静态坐标 20/20 与源表一致，太阳/行星/月球对拍 astronomy-engine 最大 1.34′（太阳 0.30′）。
-- AR 星图：导航页右上角 AR，**仅 12 点指向模式**，姿态驱动星空 HUD（亮星/太阳系/地平线/目标箭头）；**不是相机 AR**，详见 `AR_POINTING_MODES.md`。
-- 系统方向：`SensorId.ORIENTATION` 已接入 `CompassPage`/`NavPage`（id=256、10 Hz，alpha 直接作为 12 点航向）；ROT 只保留高度/姿态并在 ORIENTATION 失效时回退。四方向与干净环境北向（alpha≈0°）已验证；旧偏移迁移为 0；`Sensor.subscribeCompass` 因 Lite/FA 限制无法在 Stage 工程编译。倾斜测试与功耗实测待做，见 `ORIENTATION_TEST_REPORT.md`。
-- 记录：`s0-results/WATCH_RUN.md`、`S1_TEST_REPORT.md`、`S2_TEST_REPORT.md`、`D1_DEVICE_TEST.md`。功耗与阳台环境仍待补测。
+## 当前功能
 
-## 快速开始
+- 1,198 个天体，包含全部 710 颗星座连线端点，支持中英文星名、搜索、分类与可见筛选。
+- 12 点边缘指向导航和 AR 星空，包含星座连线、太阳系目标与转向提示。
+- 实物对准校准由用户瞄准目标后测量当次方位差，导航与 AR 共用，重启或更换观测位置后清除。
+- 单次精确定位，拒绝过旧或系统报告误差超过 100 米的结果。主页标记默认城市、手选城市和上次 GPS。
+- 首次隐私选择、GPS 单独同意、清除 GPS、个人信息与第三方 API 清单、可见的开源许可。
+- Open-Meteo 与 7Timer 城市天气，支持缓存与链路恢复重试。精确 GPS 用于本地计算，天气使用单独选择的城市目录坐标。
+- 摄影助手包含 49 台机身、视场、NPF、曝光与堆栈规划，支持自定义焦段、光圈、ISO 和总曝光时间。
+- 16 扇区遮挡编辑、Bortle 手动设置、流星雨、ISS 过境、手动星桥与极轴辅助。
 
-1. DevEco Studio **26.0.0.865**（自带 HarmonyOS 26.0.0 SDK；`modelVersion 26.0.0`）。工程已设为 compile 26.0.0 / target 6.1.0(23) / compatible 6.1.0(23)。
-2. 手表：设置 → 关于 → 连点版本号 7 次 → 开发人员选项 → 打开 **HDC 调试** 与 **无线调试**。
-3. PC 与手表同一 WLAN：
-   ```bash
-   hdc tconn <IP>:<PORT>
-   hdc list targets
-   hdc shell bm get --udid
-   ```
-4. DevEco 打开 `starpilot-watch`，配置自动签名（或手动 `.p12/.cer/.p7b`），Run。
-5. 按 `docs/S0_DEVICE_TEST.md` 逐项测试，抓日志：
-   ```bash
-   hdc hilog | grep StarPilotAudit > s0_audit.log
-   ```
+天文、目录和摄影核心可离线使用。相机由用户手动操作。
 
-> 若 Sync 报 `modelVersion`/`hvigor` 不匹配：用本机 DevEco 新建空 Wearable 工程，把 `AppScope/` 与 `entry/src/main/` 覆盖进去，保留新工程的构建文件。详见 `TECH_AUDIT.md` §3.4。
+## 构建与安装
 
-## 位置
+1. 使用 DevEco Studio 打开 `starpilot-watch/`。工程 compile SDK 为 26.0.0，compatible/target 为 HarmonyOS 6.1.0（API 23）。
+2. 将 `build-profile.example.json5` 复制为 `build-profile.json5`，用 DevEco 为自己的手表配置自动签名。
+3. 开启手表的 HDC / 无线调试，使用 DevEco 运行或通过 HDC 安装签名 HAP。
 
-- 首页点城市名进入“观测位置”，先选地区，再按国家分组选择城市（中国 50 个、亚洲/欧洲/美洲/大洋洲/非洲共 107 个）。
-- 切换后首页历算、目标导航、天气立即更新；选择结果持久化。
-- 时间按手表时区显示（出行时手表会自动切换时区）。
+```sh
+hdc tconn <watch-ip>:<port>
+hdc install -r entry-default-signed.hap
+```
 
-## 品牌
+已测试设备为 HUAWEI WATCH 5 46mm，HarmonyOS 6.1。其他设备兼容性待验证。
 
-- 应用图标：黑/白/红扁平风格，保留月牙、望远镜、四芒星、轨道环。
-- 启动页：图标 + `StarPilot` 字标 + `DEEP SKY · WRIST`，显示 1.5 s 后可点按跳过。
-- 母版：`brand/brand_icon_1024.png`；重新生成：`python tools/brand/make_brand.py`。
+## 验证范围与限制
 
-## 天气
+数学验证脚本位于 `tools/`，项目状态见 [CODEX_HANDOFF.md](CODEX_HANDOFF.md)。根目录报告包含各开发阶段的历史记录，以交接文档和当前源码为准。原始设备截图、日志和私有签名文件保留在本地，公开仓库中的历史证据路径可能无法打开。
 
-- 系统天气 App 数据不对第三方开放（Weather Service Kit 仅系统应用）。
-- 手表直连 Open-Meteo（云量/温度/湿度/风/降水）+ 7Timer（seeing/transparency）。
-- 30 分钟/2 小时缓存，失败保留旧数据；点首页“拍摄条件”看双源详情。
-- 天气页顶部“立即刷新”始终可见；刷新中/已刷新/部分失败有状态提示；两源独立更新，7Timer 最慢等待 20 s。
-- 真机 2026-11-08 00:35：云 26%、24°C、湿度 80%、风 14.8km/h；7Timer 云 3/9、视宁 4/8、透明 4/8。
-- 详见 `WEATHER_REPORT.md`。
+月球现场约 20° 偏差的根因和实物校准后的精度仍待验证。系统航向的磁北/真北基准尚未确认，AR 动作测试、真实阳台遮挡与现场指向验收尚未全部完成。光污染数值为规划估算。
 
-## D1 天体目录
+## 许可证
 
-| 组 | 数量 |
-|---|---:|
-| Messier M1–M110 | 110 |
-| Caldwell C1–C109 | 109 |
-| NGC/IC 精选（星系/星云/星团） | 250 |
-| 亮星（含双星/变星） | 200 |
-| 新增星座连线恒星（与原目录去重） | 520 |
-| 太阳系（太阳 + 月球 + 七大行星） | 9 |
-| **合计** | **1,198** |
-
-- 入口：首页右滑到“天体目录”。
-- 搜索：中文名、英文名、Messier/NGC/IC/Caldwell/恒星编号、行星名；编号类整词匹配，名称类包含匹配。
-- 筛选：全部/星云/星系/星团/恒星/双星/变星/太阳系；“仅可见”按当前城市、太阳高度和阳台遮挡实时判断。
-- 列表显示名称、编号、类型、当前高度和观测状态，并使用 `LazyForEach`。
-- 详情：中英文名、别名、类型、RA/Dec、星等、角尺寸、推荐焦段、表面亮度、距离、相位（太阳系）、最佳季节、可见窗口、数据源。
-- 太阳系目标坐标按当前时间实时计算：月球含站心视差，行星含光行时；详情“历元”显示“实时”。
-- 缺失数据保留“未收录”，不虚构；M102 按 NGC 5866 收录并注明争议。
-- 数据来源/许可/重新生成：`tools/catalog/DATA_SOURCES.md`；质检：`D1_QC_REPORT.md`；真机：`D1_DEVICE_TEST.md`；太阳系：`SOLAR_SYSTEM_REPORT.md`；太阳与摄影扩充：`SUN_AND_PHOTO_UPDATE.md`；光污染与天光模型：`LIGHT_POLLUTION_REPORT.md`。
-
-## AR 星图（无相机）
-
-- 入口：星空导航页右上角 **AR**。
-- 手表没有可用的相机预览输入，做不了天文通那种“相机实时叠加”；这里用系统姿态驱动星空 HUD。
-- **只保留 12 点指向模式**：屏幕朝自己，用表盘 12 点边缘指目标；表背模式已删除。
-- 内容：200 颗亮星、太阳/月球/七大行星、地平线、30° 方位/10° 高度网格、N/E/S/W。
-- 目标在视场内显示红圈十字；视场外显示边缘红色箭头和“左转/右转、抬高/降低”提示；背后目标只提示“在指向后方”。
-- 60° FOV，透视投影 + 背面剔除 + 圆屏安全区；1€ 四元数滤波；关闭 AR 即退订传感器。
-- 姿态：ORIENTATION alpha + ACC_Y 构造 12 点方向，ROT 作为回退；北向基准（磁北/真北）尚未确认。
-- 星座连线来自 Stellarium Modern，默认显示，可在 AR 星图右上角关闭。数据来源见 `tools/catalog/DATA_SOURCES.md`。
-- 连线端点优先显示亮星标签，并避开拥挤区域。点按端点星点可查看名称或星表编号，全部端点均可用 HIP 编号在目录中搜索。
-- AR 底部和天体目录顶部的「星名 中／EN」共用一个偏好，默认显示中文。目录始终支持中英文名称和星表编号搜索。
-- A–F 动作测试未全部完成。历史测试见 `AR_POINTING_MODES.md`、`AR_FIX_TEST_REPORT.md`。
-
-## S4 阳台遮挡
-
-- 16 扇区（22.5°）地平线编辑器，高度 0–90°，入口在星空导航页“遮挡”。
-- 目标列表标注：可拍 / 遮挡 / 已落 / 白天。
-- 目标详情显示掩码后的有效窗口（起止/时长/最高高度）。
-- 导航页在目标低于遮挡线时提示“被遮挡（X°）”。
-- 合成场景：ESE 60° 时 M1 从“可拍”变“遮挡”，清零后恢复。详见 `S4_TEST_REPORT.md`。
-
-## S5 摄影计算器
-
-> 基线示例为 A7R IV；实际支持 49 台机身/画幅，FOV/NPF 按所选传感器与像素间距计算。Bortle/ISO 天光模型见 `LIGHT_POLLUTION_REPORT.md`。
-
-| 项 | 结果 |
-|---|---|
-| 85mm 视场 | 23.72° × 15.94° · 9.12″/px |
-| 300mm 视场 | 6.81° × 4.54° · 2.59″/px |
-| NPF 85/1.8 dec0 | 2.07 s |
-| 500 法则 85mm | 5.88 s |
-| 1px 拖线 85mm | 0.61 s |
-| M1 60min 方案 | 2.75s × 1309 张 ≈ 1h 曝光，实际约 2.1h |
-| 有赤道仪 | 120s × 30 张 = 1h |
-
-详见 `S5_TEST_REPORT.md`。
-
-## S3 目标导航
-
-- 深空目标详情 → “导航到目标” → 自动切到导航页。
-- 导航页优先显示转向与抬高提示，两个轴均在 ±5° 内显示「接近目标」。磁场异常时暂停转向，目标卡显示白天、暮光、遮挡或地平线下状态。
-- 真机日志：M1 目标 114.1°/57.7°，当前 347°/44° → “右转 127° · 抬高 14°”。
-- 精度基线沿用 S0 罗盘：RMS 4.6°、最大 8.7°。
-- 待做：亮星/月亮实拍指向、俯仰/横滚误差、60 s 抖动。详见 `S3_TEST_REPORT.md`。
-
-## S2 天文历算
-
-| 项 | 最大误差 | 阈值 |
-|---|---|---|
-| 太阳位置 | 0.0053° | 0.02° |
-| 太阳高度/方位 | 0.0053° | 0.02° |
-| 月球黄经 | 0.0118° | 0.05° |
-| 月相照亮比例 | 0.00127 | 0.002 |
-| 恒星岁差 | 0.0066° | 0.02° |
-| 天文暮光 | 3 s | 2 min |
-
-首页已接入：天文暮光倒计时、月相/月亮高度、城市选择（默认北京，可点按切换）。详见 `S2_TEST_REPORT.md`。
-
-## S1 手表应用
-
-| 页面 | 内容 |
-|---|---|
-| 观星首页 | 时间/日期/电量；拍摄条件/天文暮光/月相/手机四个占位卡；红光模式；诊断入口 |
-| 星空导航 | 12 点方位角和高度、目标指引、磁场与目标可见状态、目标目录／AR 星图／遮挡入口 |
-| 深空目标 | 1,198 个天体，支持搜索、分类、可见筛选和目标详情 |
-| 摄影助手 | 30s/1/3/5/10/20 min 计时；计时期间常亮；49 台相机/画幅（含 Pentax）；按品牌筛选；15 个常用焦段 + 1–3000mm 自定义；光圈 0.7–22；ISO + 总时长自定义；157 城市 Bortle；天光/饱和限制；FOV/NPF/堆栈 |
-
-## 诊断应用能做什么
-
-| 页面 | 内容 |
-|---|---|
-| 设备 | 型号、系统、API、屏幕分辨率、电量、时区、UTC；输出设备日志 |
-| 传感器 | `getSensorListSync()` 枚举；ACC/GYR/MAG/ROT 实时值；实测 Hz；错误码 |
-| 罗盘 | 12 点/3 点方位与高度、磁场合集（µT）、干扰状态、倾角、归零偏移 |
-| 系统方向 | `SensorId.ORIENTATION` 实时 alpha/beta/gamma、10 Hz、北东南西手动标记；Lite Compass 仅记录兼容性结论 |
-| 工具 | 预设/定时振动、偏好存储重启验证、HTTP 测试、表冠计数、10 分钟计时 |
-
-设计约束：仅在罗盘/传感器页订阅；离开即 `sensor.off`；无 GPS；无后台传感器；无相机通信。
-
-## 五个关键结论
-
-1. **Watch 5 不是 Wear OS**，不能装 APK；第三方应用是 HarmonyOS ArkTS 应用，调试安装走 HDC 无线调试，分发走 AppGallery。
-2. **没有“指南针 API”**。朝向来自 `ROTATION_VECTOR`（官方罗盘示例路径）或 `MAGNETIC_FIELD + ACCELEROMETER` 回退融合。
-3. **磁北 ≠ 真北**。中国境内磁偏角约 −1° 到 −11°，S2 必须加修正，否则导航有系统偏差。
-4. **腕表是粗指向，不是瞄准具**。85mm 可用 ±5°；300mm 视场只有 6.8°×4.5°，必须靠相机取景确认。
-5. **通信不是关键路径**。个人开发者可申请 Wear Engine 的“设备基础信息 + 消息通知”，审批 1–2 周；核心功能必须离线可用。
-
-## 明确不做
-
-- 不做手表相机 AR：Watch 5 没有可用的第三方相机预览输入；AR 星图是姿态 HUD，不是实景叠加。
-- 不控制 A7R IV，不做快门线/相机通信。
-- 不依赖持续网络、GPS 或手机在线。
-- 不虚构传感器/通信 API；未验证的能力一律标 `PENDING`。
-- 不把系统自带功能当作第三方可用能力。
-
-## 下一步
-
-1. 录入真实阳台东南/南向遮挡数据，复测“可拍/遮挡”与推荐。
-2. 完成 S3 亮星/月亮现场指向精度测试（当前罗盘基线 RMS 4.6°）。
-3. D1 补一次飞行模式下的目录搜索验收；确认表冠翻页。
-4. 补 D1 搜索历史/常用目标（可选），以及双星/变星的更多中文别名。
-
-
-## License
-
-- Application code: **MIT** — see `LICENSE`.
-- Catalog/derived data: **CC BY-SA 4.0** where derived from OpenNGC, HYG or
-  Stellarium; Caldwell metadata is MIT; satellite.js is MIT.
-- See `THIRD_PARTY_NOTICES.md` for attribution and service terms.
+应用代码采用 [MIT](LICENSE)。OpenNGC、HYG、Stellarium 衍生星表按 CC BY-SA 4.0 分发，Caldwell 元数据和 satellite.js 采用 MIT。完整归属与服务条款见 [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md)。

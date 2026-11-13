@@ -1,6 +1,6 @@
 # StarPilot V1 — Codex 交接文档
 
-日期：2026-11-11  
+日期：2026-11-13
 仓库：`C:\Users\32966\.zcode\workspace\682492f7-7293-40bc-87a9-dbe58d28cb56`  
 分支：`master`（远端主分支名是 `main`，但当前工作分支是 `master`）  
 设备：HUAWEI WATCH 5 46mm（RTS-AL00），HarmonyOS 6.1.0.333，API 23，466×466
@@ -30,7 +30,7 @@ StarPilot V1 是手表端观星/深空摄影辅助工具：
 
 ```text
 HAP: starpilot-watch/entry/build/default/outputs/default/entry-default-signed.hap
-SHA256: 8adc48f001d2dbe058ef8780c8c155b21e710ba91094980d8e2820acb871fb4f
+SHA256: 50a38ebae27af20dbe31b8d4392778b3285912e3cda72f90090955186a2768c8
 ```
 
 最后一次安装：2026-11-11，导航实物对准校准已用 DevEco Hvigor 构建并通过 HDC 覆盖安装。「主页 → 天文工具」包含流星雨、ISS 过境、手动星桥和极轴辅助。星桥也可从深空目标详情进入。  
@@ -393,3 +393,6 @@ Codex 接手后先做：
 - [ ] 表冠实测；失败则记录现象，不猜
 - [ ] 任何“通过”结论都附截图/日志/用户确认
 - [ ] 不把历史报告里的旧结论（表背模式、等距投影、旧 AR）当当前状态
+## 0.1.1 公开预览版（2026-11-13）
+
+公开源码已与原工作区逐文件比对，应用源码包含 GPS 质量校验、隐私与许可、实物对准校准。版本元数据更新为 0.1.1。此版本重新构建通过，尚未进行新的真机安装验证。源码和 unsigned HAP 下载说明见 DOWNLOADS.md。原始设备证据保留在私有工作区。约 20° 偏差的根因与现场校准精度仍待确认。
