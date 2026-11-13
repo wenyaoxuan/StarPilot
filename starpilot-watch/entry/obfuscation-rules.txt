@@ -1,0 +1,1 @@
+# StarPilot S0 — obfuscation is disabled in entry/build-profile.json5

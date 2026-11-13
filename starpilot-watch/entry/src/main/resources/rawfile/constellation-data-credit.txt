@@ -1,0 +1,20 @@
+StarPilot constellation data
+
+Constellation stick figures adapted from Modern by the Stellarium team.
+https://github.com/Stellarium/stellarium/tree/daace2add6a1bf886e8ee1934f51e9c69f818d18/skycultures/modern
+
+J2000 star coordinates from the Astronexus HYG Database v3.5.
+https://github.com/astronexus/HYG-Database
+
+Traditional Chinese star names from Stellarium Chinese sky culture v26.3,
+contributed by Karrie Berglund and Sun Shuwei, matched by Hipparcos ID.
+https://github.com/Stellarium/stellarium/blob/v26.3/skycultures/chinese/description.md
+
+The derived data contains indexed, deduplicated segments and their endpoints.
+It is distributed under CC BY-SA 4.0.
+https://creativecommons.org/licenses/by-sa/4.0/
+
+The manual star-hop supplement selects additional Hipparcos stars of
+apparent magnitude 4.0 or brighter from HYG v3.5 and matches available
+Chinese names from Stellarium v26.3. It uses the same attribution and
+CC BY-SA 4.0 terms.

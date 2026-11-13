@@ -1,0 +1,60 @@
+# HarmonyOS build output
+**/build/
+**/.hvigor/
+**/oh_modules/
+**/.cxx/
+**/.preview/
+local.properties
+.idea/
+*.iml
+.DS_Store
+Thumbs.db
+
+# Signing material — never commit
+*.p12
+*.cer
+*.p7b
+*.csr
+*.key
+signing/
+
+# Local test artifacts
+s0-results/*.log
+s0-results/*.hap
+starpilot-watch/build_s0.log
+
+# DevEco writes signing material here; use build-profile.example.json5
+starpilot-watch/build-profile.json5
+starpilot-watch/build_s1.log
+tools/astro-test/node_modules/
+tools/astro-test/astro.mjs
+tools/astro-test/solar.mjs
+starpilot-watch/build_s2.log
+starpilot-watch/build_s3.log
+tools/photo-test/node_modules/
+tools/photo-test/photo.mjs
+starpilot-watch/build_s5.log
+starpilot-watch/build_s4.log
+starpilot-watch/build_weather.log
+tools/weather-test/node_modules/
+tools/weather-test/weather.mjs
+starpilot-watch/build_weather7.log
+tools/weather-test/weather7.mjs
+starpilot-watch/build_brand.log
+starpilot-watch/build_*.log
+
+# Private audit evidence and device screenshots/logs (not part of the public repo)
+AR_AUDIT/
+s0-results/
+artifacts/
+stardroid_tree.json
+vega_tree.json
+stellarium_tree.json
+
+# Generated test modules
+tools/ar-audit/attitudefilter.mjs
+tools/ar-audit/fusion.mjs
+tools/ar-audit/skyprojection.mjs
+tools/astro-test/solar2.mjs
+tools/astro-test/solar3.mjs
+tools/photo-test/lightpollution.mjs

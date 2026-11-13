@@ -1,0 +1,24 @@
+{
+  "string": [
+    {
+      "name": "module_desc",
+      "value": "StarPilot S0 diagnostics module"
+    },
+    {
+      "name": "EntryAbility_desc",
+      "value": "StarPilot S0 diagnostics"
+    },
+    {
+      "name": "EntryAbility_label",
+      "value": "StarPilot S0"
+    },
+    {
+      "name": "perm_reason",
+      "value": "用于读取姿态传感器并在倒计时结束时振动提醒"
+    },
+    {
+      "name": "perm_reason_location",
+      "value": "用于获取观测点经纬度并计算月球、行星和深空目标的方位"
+    }
+  ]
+}
