@@ -1,6 +1,6 @@
 # 下载与安装
 
-[所有版本](https://github.com/wenyaoxuan/StarPilot/releases) · [最新版本](https://github.com/wenyaoxuan/StarPilot/releases/latest)
+[所有版本](https://github.com/wenyaoxuan/StarPilot/releases) · [最新版本](https://github.com/wenyaoxuan/StarPilot/releases/tag/v0.1.1)
 
 | 文件 | 说明 |
 |---|---|

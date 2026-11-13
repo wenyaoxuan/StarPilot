@@ -4,7 +4,7 @@ HarmonyOS 手表上的观星与深空摄影辅助工具，使用 ArkTS Stage 模
 
 ## 下载
 
-**[打开下载列表](https://github.com/wenyaoxuan/StarPilot/releases)** · [最新版本](https://github.com/wenyaoxuan/StarPilot/releases/latest) · [安装说明](DOWNLOADS.md)
+**[打开下载列表](https://github.com/wenyaoxuan/StarPilot/releases)** · [最新版本](https://github.com/wenyaoxuan/StarPilot/releases/tag/v0.1.1) · [安装说明](DOWNLOADS.md)
 
 | 下载 | 用途 |
 |---|---|
